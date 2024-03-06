@@ -1,17 +1,24 @@
 import time
 import logging
+
+import allure
 from selenium.webdriver.support.ui import Select
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+import allure_pytest
 
 
 @pytest.mark.negative
+@allure.feature()
 def test_login_katalon_negative():
     Logger = logging.getLogger(__name__)
     driver=webdriver.Chrome() #creating session
     driver.maximize_window()
     driver.get("https://katalon-demo-cura.herokuapp.com/")
+    driver.implicitly_wait(20)
 
 
     link=driver.find_element(By.LINK_TEXT,"Make Appointment")
@@ -31,6 +38,7 @@ def test_login_katalon_negative():
 
 
 @pytest.mark.positive
+@allure.feature()
 def test_login_katalon():
     Logger = logging.getLogger(__name__)
     driver=webdriver.Chrome() #creating session
@@ -50,12 +58,12 @@ def test_login_katalon():
     login_button=driver.find_element(By.ID,"btn-login")
     login_button.click()
 
-    time.sleep(5)
+
 
     dropdown=Select(driver.find_element(By.ID,"combo_facility"))
     dropdown.select_by_visible_text("Hongkong CURA Healthcare Center")
 
-    time.sleep(5)
+
 
     driver.find_element(By.ID,"chk_hospotal_readmission").click()
     driver.find_element(By.ID, "radio_program_medicaid").click()
